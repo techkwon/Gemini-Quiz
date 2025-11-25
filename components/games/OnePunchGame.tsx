@@ -568,10 +568,10 @@ export default function OnePunchGame({ questions, onScoreUpdate }: OnePunchGameP
 
                     <div className="mt-12 animate-bounce">
                         <p className="text-xl md:text-3xl font-bold text-white blink">
-                            TOUCH TO START
+                            터치하여 시작
                         </p>
                         <div className="mt-2 text-xs md:text-sm text-gray-400">
-                            (Sound Required)
+                            (소리 켜기 필수)
                         </div>
                     </div>
                 </div>
@@ -605,22 +605,22 @@ export default function OnePunchGame({ questions, onScoreUpdate }: OnePunchGameP
 
                 <div className="z-10 text-center max-w-4xl px-4">
                     <h1 className="text-4xl md:text-7xl font-black italic mb-8 text-yellow-400 drop-shadow-[0_4px_0_#000]">
-                        HERO ASSOCIATION EXAM
+                        히어로 협회 시험
                     </h1>
                     <div className="bg-black/80 border-4 border-white p-6 md:p-10 transform -skew-x-6 shadow-2xl backdrop-blur-sm">
                         <p className="text-lg md:text-2xl mb-6 leading-relaxed font-bold text-gray-200">
-                            "Welcome, candidate. Prove your knowledge to become an S-Class Hero!"
+                            "환영합니다, 지원자여. 지식을 증명하고 S급 히어로가 되세요!"
                         </p>
                         <ul className="text-left space-y-4 mb-8 text-gray-300 md:text-xl font-medium">
-                            <li className="flex items-center"><ChevronRight className="text-yellow-400 mr-2" /> Answer quickly for bonus points.</li>
-                            <li className="flex items-center"><ChevronRight className="text-yellow-400 mr-2" /> Consecutive correct answers boost your rank.</li>
-                            <li className="flex items-center"><ChevronRight className="text-yellow-400 mr-2" /> One punch is all it takes!</li>
+                            <li className="flex items-center"><ChevronRight className="text-yellow-400 mr-2" /> 빠르게 정답을 맞히면 보너스 점수 획득!</li>
+                            <li className="flex items-center"><ChevronRight className="text-yellow-400 mr-2" /> 연속 정답 시 랭크 상승!</li>
+                            <li className="flex items-center"><ChevronRight className="text-yellow-400 mr-2" /> 한 방이면 충분하다!</li>
                         </ul>
                         <button
                             onClick={handleIntroStartButton}
                             className="w-full bg-red-600 hover:bg-red-500 text-white text-2xl md:text-4xl font-black py-4 md:py-6 px-8 transform hover:scale-105 transition-all shadow-[0_6px_0_#900] active:shadow-none active:translate-y-2 flex items-center justify-center gap-4"
                         >
-                            <Play size={32} fill="currentColor" /> START EXAM
+                            <Play size={32} fill="currentColor" /> 시험 시작
                         </button>
                     </div>
                 </div>
@@ -641,11 +641,11 @@ export default function OnePunchGame({ questions, onScoreUpdate }: OnePunchGameP
                 <div className="absolute top-0 left-0 w-full p-2 md:p-4 z-20 flex justify-between items-start bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2 mb-1">
-                            <span className="bg-yellow-400 text-black font-black px-2 py-1 text-sm md:text-lg transform -skew-x-12">SCORE</span>
+                            <span className="bg-yellow-400 text-black font-black px-2 py-1 text-sm md:text-lg transform -skew-x-12">점수</span>
                             <span className="text-2xl md:text-4xl font-black italic text-yellow-400 drop-shadow-md">{score}</span>
                         </div>
                         <div className="flex items-center gap-1 text-gray-400 text-xs md:text-sm font-bold">
-                            <Trophy size={14} /> RANK: {getRank().title.split(' ')[0]}
+                            <Trophy size={14} /> 랭크: {getRank().title.split(' ')[0]}
                         </div>
                     </div>
 
@@ -653,7 +653,7 @@ export default function OnePunchGame({ questions, onScoreUpdate }: OnePunchGameP
                         <div className={`text-4xl md:text-6xl font-black italic ${timeLeft <= 3 ? 'text-red-500 animate-ping' : 'text-white'} drop-shadow-lg`}>
                             {timeLeft}
                         </div>
-                        <div className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest">Time Limit</div>
+                        <div className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest">제한 시간</div>
                     </div>
                 </div>
 
@@ -710,7 +710,7 @@ export default function OnePunchGame({ questions, onScoreUpdate }: OnePunchGameP
 
                 <div className="z-10 w-full max-w-2xl bg-black/80 border-4 border-white p-6 md:p-10 transform -skew-x-3 shadow-[0_0_50px_rgba(255,255,0,0.2)] backdrop-blur-md text-center">
                     <h2 className="text-3xl md:text-5xl font-black italic text-yellow-400 mb-2 uppercase tracking-tighter">
-                        MISSION COMPLETE
+                        임무 완료
                     </h2>
                     <div className="w-full h-1 bg-gray-600 mb-8"></div>
 
@@ -723,11 +723,11 @@ export default function OnePunchGame({ questions, onScoreUpdate }: OnePunchGameP
                     </div>
 
                     <div className="bg-gray-900/80 p-6 rounded-xl border-2 border-gray-700 mb-8">
-                        <div className="text-gray-500 font-bold text-sm uppercase tracking-widest mb-1">FINAL SCORE</div>
+                        <div className="text-gray-500 font-bold text-sm uppercase tracking-widest mb-1">최종 점수</div>
                         <div className="text-5xl md:text-7xl font-black text-white">{score}</div>
                     </div>
 
-                    <div className="text-gray-500 animate-pulse">Waiting for host...</div>
+                    <div className="text-gray-500 animate-pulse">호스트를 기다리는 중...</div>
                 </div>
             </div>
         );

@@ -111,8 +111,8 @@ export default function CreateQuiz() {
     };
 
     if (loading) return (
-        <div className="min-h-screen flex items-center justify-center bg-[#fbfbfd]">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <div className="min-h-screen flex items-center justify-center bg-background">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
     );
 
@@ -172,37 +172,36 @@ export default function CreateQuiz() {
     };
 
     return (
-        <div className="min-h-screen bg-[#fbfbfd] pb-32">
+        <div className="min-h-screen bg-background pb-32 transition-colors duration-300">
             {/* Topic Input Modal */}
             {showTopicModal && (
                 <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-200">
-                    <div className="bg-white p-8 rounded-[24px] shadow-2xl w-full max-w-md mx-4">
+                    <div className="bg-card p-8 rounded-[24px] shadow-2xl w-full max-w-md mx-4 border border-card-border">
                         <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20">
                             <Sparkles className="text-white" size={24} />
                         </div>
-                        <h3 className="text-2xl font-bold text-[#1d1d1f] mb-2">AI로 생성하기</h3>
-                        <p className="text-[#86868b] mb-6">주제를 입력하면 Gemini가 퀴즈를 만들어줍니다.</p>
+                        <h3 className="text-2xl font-bold text-foreground mb-2">AI로 생성하기</h3>
+                        <p className="text-gray-500 dark:text-gray-400 mb-6">주제를 입력하면 Gemini가 퀴즈를 만들어줍니다.</p>
 
                         <input
                             type="text"
                             value={topicInput}
                             onChange={(e) => setTopicInput(e.target.value)}
                             placeholder="예: 광합성, 제2차 세계대전"
-                            className="w-full px-4 py-3 bg-[#f5f5f7] border-none rounded-xl mb-6 focus:ring-2 focus:ring-blue-500/50 outline-none text-lg transition-all"
+                            className="w-full px-4 py-3 bg-gray-100 dark:bg-white/10 border-none rounded-xl mb-6 focus:ring-2 focus:ring-primary/50 outline-none text-lg transition-all text-foreground placeholder-gray-400"
                             autoFocus
                             onKeyDown={(e) => e.key === 'Enter' && handleGenerateConfirm()}
                         />
                         <div className="flex justify-end space-x-3">
                             <button
                                 onClick={() => setShowTopicModal(false)}
-                                className="px-6 py-3 text-[#86868b] hover:text-[#1d1d1f] font-medium transition-colors"
+                                className="px-6 py-3 text-gray-500 hover:text-foreground font-medium transition-colors"
                             >
                                 취소
                             </button>
                             <button
                                 onClick={handleGenerateConfirm}
-                                disabled={!topicInput.trim()}
-                                className="px-6 py-3 bg-[#1d1d1f] text-white rounded-xl hover:bg-[#333] disabled:opacity-50 font-medium transition-all"
+                                className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-500/25 transition-all"
                             >
                                 생성하기
                             </button>
@@ -212,115 +211,111 @@ export default function CreateQuiz() {
             )}
 
             {/* Header */}
-            <div className="sticky top-0 z-40 bg-[#fbfbfd]/80 backdrop-blur-md border-b border-gray-200/50 px-6 py-4">
-                <div className="max-w-4xl mx-auto flex justify-between items-center">
+            <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-gray-200 dark:border-white/10">
+                <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
                     <button
                         onClick={() => router.back()}
-                        className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500"
+                        className="flex items-center gap-2 text-gray-500 hover:text-foreground transition-colors"
                     >
-                        <ArrowLeft size={24} />
+                        <ArrowLeft size={20} />
+                        <span className="font-medium">돌아가기</span>
                     </button>
-                    <h1 className="text-lg font-semibold text-[#1d1d1f]">새 퀴즈 만들기</h1>
-                    <div className="w-10"></div> {/* Spacer for alignment */}
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={handleOpenGenModal}
+                            disabled={generating}
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50"
+                        >
+                            {generating ? (
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                                <Sparkles size={16} />
+                            )}
+                            AI로 생성
+                        </button>
+                        <button
+                            onClick={handleSave}
+                            disabled={saving}
+                            className="flex items-center gap-2 px-6 py-2 bg-primary hover:bg-primary-hover text-white rounded-full text-sm font-bold shadow-md transition-all disabled:opacity-50"
+                        >
+                            {saving ? '저장 중...' : '저장하기'}
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div className="max-w-3xl mx-auto px-6 py-8">
-                {/* Quiz Info Card */}
-                <div className="bg-white rounded-[24px] p-8 shadow-[0_2px_12px_rgba(0,0,0,0.04)] mb-8 border border-gray-100">
-                    <div className="mb-6">
-                        <label className="block text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2">퀴즈 제목</label>
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            className="w-full text-3xl font-bold text-[#1d1d1f] placeholder-gray-300 border-none focus:ring-0 p-0 bg-transparent"
-                            placeholder="제목 없는 퀴즈"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2">설명</label>
-                        <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="w-full text-lg text-[#1d1d1f] placeholder-gray-300 border-none focus:ring-0 p-0 bg-transparent resize-none h-24"
-                            placeholder="설명을 입력하세요..."
-                        />
-                    </div>
+            <div className="max-w-3xl mx-auto px-6 py-12">
+                {/* Quiz Info */}
+                <div className="bg-card rounded-3xl p-8 shadow-sm border border-card-border mb-8">
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="퀴즈 제목을 입력하세요"
+                        className="w-full text-4xl font-bold bg-transparent border-none focus:ring-0 placeholder-gray-300 dark:placeholder-gray-600 text-foreground mb-4 p-0"
+                    />
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="퀴즈에 대한 설명을 입력하세요 (선택사항)"
+                        className="w-full text-lg text-gray-500 dark:text-gray-400 bg-transparent border-none focus:ring-0 resize-none p-0 h-24"
+                    />
                 </div>
 
-                {/* AI Generator Banner */}
-                <div className="mb-8">
-                    <button
-                        onClick={handleOpenGenModal}
-                        disabled={generating}
-                        className="w-full group relative overflow-hidden rounded-[20px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-[1px] shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 transition-all duration-300"
-                    >
-                        <div className="relative bg-white rounded-[19px] px-6 py-4 flex items-center justify-between group-hover:bg-opacity-95 transition-all">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                                    <Sparkles className="text-purple-600" size={20} />
-                                </div>
-                                <div className="text-left">
-                                    <h3 className="font-semibold text-gray-900">Gemini AI로 생성하기</h3>
-                                    <p className="text-sm text-gray-500">어떤 주제로든 즉시 문제를 만들어보세요</p>
-                                </div>
-                            </div>
-                            <span className="text-purple-600 font-medium group-hover:translate-x-1 transition-transform">
-                                {generating ? '생성 중...' : '지금 해보기 →'}
-                            </span>
-                        </div>
-                    </button>
-                </div>
-
-                {/* Questions List */}
+                {/* Questions */}
                 <div className="space-y-6">
                     {questions.map((q, qIdx) => (
-                        <div key={qIdx} className="group bg-white rounded-[24px] p-8 shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 relative transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
-                            <div className="flex justify-between items-start mb-6">
-                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-sm font-bold text-gray-500">
-                                    {qIdx + 1}
-                                </span>
+                        <div key={qIdx} className="group bg-card rounded-3xl p-8 shadow-sm border border-card-border hover:shadow-md transition-all relative">
+                            <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
                                     onClick={() => handleRemoveQuestion(qIdx)}
-                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all opacity-0 group-hover:opacity-100"
+                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
                                 >
-                                    <Trash2 size={18} />
+                                    <Trash2 size={20} />
                                 </button>
                             </div>
 
-                            <div className="mb-8">
-                                <input
-                                    type="text"
-                                    value={q.q}
-                                    onChange={(e) => handleQuestionChange(qIdx, 'q', e.target.value)}
-                                    className="w-full text-xl font-medium text-[#1d1d1f] placeholder-gray-300 border-none focus:ring-0 p-0 bg-transparent border-b border-gray-100 pb-2 focus:border-blue-500 transition-colors"
-                                    placeholder="질문을 입력하세요..."
-                                />
+                            <div className="flex items-start gap-4 mb-6">
+                                <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0 mt-1">
+                                    {qIdx + 1}
+                                </div>
+                                <div className="flex-1">
+                                    <input
+                                        type="text"
+                                        value={q.q}
+                                        onChange={(e) => handleQuestionChange(qIdx, 'q', e.target.value)}
+                                        placeholder="질문을 입력하세요"
+                                        className="w-full text-xl font-semibold bg-transparent border-b border-gray-200 dark:border-white/10 focus:border-primary focus:ring-0 rounded-none px-0 py-2 transition-all text-foreground placeholder-gray-300 dark:placeholder-gray-600"
+                                    />
+                                </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-12">
                                 {q.options.map((opt, oIdx) => (
                                     <div
                                         key={oIdx}
                                         onClick={() => handleQuestionChange(qIdx, 'answer', oIdx)}
                                         className={`relative flex items-center p-1 rounded-xl border-2 transition-all cursor-pointer ${q.answer === oIdx
-                                            ? 'border-green-500 bg-green-50/30'
-                                            : 'border-transparent bg-[#f5f5f7] hover:bg-[#ebebeb]'
+                                            ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                                            : 'border-gray-100 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/20 bg-gray-50 dark:bg-white/5'
                                             }`}
                                     >
-                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center mr-2 transition-colors ${q.answer === oIdx ? 'text-green-600' : 'text-gray-400'
+                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold mr-3 ${q.answer === oIdx ? 'text-green-600 dark:text-green-400' : 'text-gray-400'
                                             }`}>
-                                            {q.answer === oIdx ? <CheckCircle2 size={20} /> : <div className="w-5 h-5 rounded-full border-2 border-gray-300" />}
+                                            {['A', 'B', 'C', 'D'][oIdx]}
                                         </div>
                                         <input
                                             type="text"
                                             value={opt}
                                             onChange={(e) => handleOptionChange(qIdx, oIdx, e.target.value)}
-                                            className="flex-1 bg-transparent border-none focus:ring-0 text-[#1d1d1f] font-medium"
-                                            placeholder={`옵션 ${oIdx + 1}`}
-                                            onClick={(e) => e.stopPropagation()}
+                                            placeholder={`보기 ${oIdx + 1}`}
+                                            className="flex-1 bg-transparent border-none focus:ring-0 text-foreground placeholder-gray-400 font-medium"
                                         />
+                                        {q.answer === oIdx && (
+                                            <div className="absolute right-3 text-green-500">
+                                                <CheckCircle2 size={20} fill="currentColor" className="text-white dark:text-black" />
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -330,13 +325,12 @@ export default function CreateQuiz() {
 
                 <button
                     onClick={handleAddQuestion}
-                    className="w-full mt-8 py-6 border-2 border-dashed border-gray-300 rounded-[24px] text-gray-400 hover:border-[#0071e3] hover:text-[#0071e3] hover:bg-blue-50/50 transition-all font-medium flex items-center justify-center gap-2 group"
+                    className="w-full py-6 mt-8 rounded-3xl border-2 border-dashed border-gray-300 dark:border-white/20 text-gray-400 hover:text-primary hover:border-primary hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-all flex items-center justify-center gap-2 font-bold text-lg group"
                 >
-                    <Plus size={20} className="group-hover:scale-110 transition-transform" />
+                    <Plus size={24} className="group-hover:scale-110 transition-transform" />
                     문제 추가하기
                 </button>
             </div>
-
             {/* Bottom Action Bar */}
             <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-gray-200/50 p-4 z-40">
                 <div className="max-w-3xl mx-auto flex justify-end gap-4">

@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-
-import { Suspense } from 'react';
+import { ArrowRight, KeyRound } from 'lucide-react';
 
 function PlayContent() {
     const router = useRouter();
@@ -15,7 +14,7 @@ function PlayContent() {
 
     const handleJoin = async () => {
         if (pin.length !== 6) {
-            alert('Please enter a valid 6-digit PIN');
+            alert('유효한 6자리 PIN 번호를 입력해주세요.');
             return;
         }
 
@@ -25,7 +24,7 @@ function PlayContent() {
             const snapshot = await getDocs(q);
 
             if (snapshot.empty) {
-                alert('Game not found. Please check the PIN.');
+                alert('게임을 찾을 수 없습니다. PIN 번호를 확인해주세요.');
                 setLoading(false);
                 return;
             }
@@ -34,31 +33,46 @@ function PlayContent() {
             router.push(`/play/join?sessionId=${session.id}`);
         } catch (error) {
             console.error("Error joining game:", error);
-            alert("Error joining game");
+            alert("게임 참여 중 오류가 발생했습니다.");
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-indigo-500 flex flex-col items-center justify-center p-4">
-            <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md text-center">
-                <h1 className="text-3xl font-bold mb-8 text-indigo-900">Join Game</h1>
+        <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden transition-colors duration-300">
+            {/* Background Elements */}
+            <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-blue-400/20 dark:bg-blue-600/10 rounded-full blur-[100px] animate-pulse"></div>
+            <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-purple-400/20 dark:bg-purple-600/10 rounded-full blur-[100px] animate-pulse delay-700"></div>
 
-                <input
-                    type="text"
-                    value={pin}
-                    onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    placeholder="Game PIN"
-                    className="w-full text-center text-4xl tracking-widest font-mono border-b-4 border-indigo-200 focus:border-indigo-600 outline-none py-4 mb-8"
-                />
+            <div className="bg-card backdrop-blur-xl border border-card-border shadow-2xl rounded-[32px] p-8 md:p-12 w-full max-w-md relative z-10">
+                <div className="text-center mb-10">
+                    <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <KeyRound className="text-indigo-600 dark:text-indigo-400" size={32} />
+                    </div>
+                    <h1 className="text-3xl font-bold text-foreground mb-2">게임 참여</h1>
+                    <p className="text-gray-500 dark:text-gray-400">선생님이 공유한 PIN 번호를 입력하세요.</p>
+                </div>
 
-                <button
-                    onClick={handleJoin}
-                    disabled={loading || pin.length !== 6}
-                    className="w-full py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 disabled:opacity-50 transition-all transform active:scale-95"
-                >
-                    {loading ? 'Checking...' : 'Enter'}
-                </button>
+                <div className="space-y-6">
+                    <input
+                        type="text"
+                        value={pin}
+                        onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                        placeholder="000000"
+                        className="w-full text-center text-5xl tracking-[0.5em] font-mono font-bold bg-transparent border-b-2 border-gray-200 dark:border-white/10 focus:border-primary focus:ring-0 outline-none py-4 mb-8 text-foreground placeholder-gray-200 dark:placeholder-white/5 transition-all"
+                        autoFocus
+                        onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
+                    />
+
+                    <button
+                        onClick={handleJoin}
+                        disabled={loading || pin.length !== 6}
+                        className="w-full py-4 bg-primary hover:bg-primary-hover text-white rounded-2xl font-bold text-lg shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group disabled:opacity-50 transition-all transform hover:-translate-y-0.5"
+                    >
+                        {loading ? '확인 중...' : '입장하기'}
+                        {!loading && <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />}
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -66,7 +80,7 @@ function PlayContent() {
 
 export default function Play() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-background">로딩 중...</div>}>
             <PlayContent />
         </Suspense>
     );

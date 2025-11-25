@@ -51,42 +51,66 @@ export default function LiveGame({ params }: { params: Promise<{ sessionId: stri
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white p-8">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">Live Leaderboard</h1>
-                <div className="text-4xl font-mono font-bold text-yellow-400">
-                    {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
-                </div>
-                <button
-                    onClick={handleEndGame}
-                    className="px-6 py-2 bg-red-600 rounded hover:bg-red-700"
-                >
-                    End Game Now
-                </button>
-            </div>
-
-            <div className="space-y-4 max-w-4xl mx-auto">
-                {players.map((player, index) => (
-                    <div
-                        key={player.id}
-                        className={`flex items-center p-4 rounded-lg transform transition-all duration-500 ${index === 0 ? 'bg-yellow-500/20 border-2 border-yellow-500 scale-105' :
-                            index === 1 ? 'bg-gray-400/20 border-2 border-gray-400' :
-                                index === 2 ? 'bg-orange-500/20 border-2 border-orange-500' :
-                                    'bg-white/5'
-                            }`}
-                    >
-                        <div className="w-12 text-2xl font-bold text-center">
-                            {index + 1}
-                        </div>
-                        <div className="flex-1 ml-4">
-                            <div className="font-bold text-lg">{player.name}</div>
-                            <div className="text-sm opacity-70">{player.studentId}</div>
-                        </div>
-                        <div className="text-2xl font-mono font-bold">
-                            {player.score?.toLocaleString()}
-                        </div>
+        <div className="min-h-screen bg-background text-foreground p-8 transition-colors duration-300">
+            <div className="max-w-4xl mx-auto">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight">실시간 리더보드</h1>
+                        <p className="text-gray-500 dark:text-gray-400 mt-1">학생들의 점수가 실시간으로 업데이트됩니다.</p>
                     </div>
-                ))}
+
+                    <div className="flex items-center gap-6">
+                        <div className="px-6 py-3 bg-card border border-card-border rounded-2xl shadow-sm flex items-center gap-3">
+                            <span className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">남은 시간</span>
+                            <div className="text-3xl font-mono font-bold text-primary tabular-nums">
+                                {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={handleEndGame}
+                            className="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl font-bold transition-all"
+                        >
+                            게임 종료
+                        </button>
+                    </div>
+                </div>
+
+                <div className="space-y-4">
+                    {players.map((player, index) => (
+                        <div
+                            key={player.id}
+                            className={`flex items-center p-6 rounded-3xl transform transition-all duration-500 ${index === 0 ? 'bg-yellow-500/10 border-2 border-yellow-500/50 scale-105 shadow-lg shadow-yellow-500/10 z-10' :
+                                index === 1 ? 'bg-gray-400/10 border-2 border-gray-400/50 scale-102 z-0' :
+                                    index === 2 ? 'bg-orange-500/10 border-2 border-orange-500/50 scale-100 z-0' :
+                                        'bg-card border border-card-border shadow-sm'
+                                }`}
+                        >
+                            <div className={`w-12 h-12 flex items-center justify-center rounded-full font-bold text-xl mr-6 ${index === 0 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400' :
+                                    index === 1 ? 'bg-gray-100 text-gray-700 dark:bg-gray-500/20 dark:text-gray-300' :
+                                        index === 2 ? 'bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400' :
+                                            'bg-gray-50 text-gray-500 dark:bg-white/5 dark:text-gray-400'
+                                }`}>
+                                {index + 1}
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                                <div className="font-bold text-xl text-foreground truncate">{player.name}</div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400">{player.studentId}</div>
+                            </div>
+
+                            <div className="text-3xl font-mono font-bold text-foreground tabular-nums">
+                                {player.score?.toLocaleString()}
+                            </div>
+                        </div>
+                    ))}
+
+                    {players.length === 0 && (
+                        <div className="text-center py-20 text-gray-500 dark:text-gray-400 bg-card rounded-3xl border border-dashed border-card-border">
+                            아직 점수가 집계되지 않았습니다.
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

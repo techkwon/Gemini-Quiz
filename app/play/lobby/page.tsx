@@ -29,23 +29,23 @@ function LobbyContent() {
     }, [sessionId, playerId, router]);
 
     return (
-        <div className="min-h-screen bg-[#fbfbfd] flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden transition-colors duration-300">
             {/* Background Elements */}
-            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-green-400/10 rounded-full blur-[120px] animate-pulse"></div>
+            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-green-400/10 dark:bg-green-600/10 rounded-full blur-[120px] animate-pulse"></div>
 
-            <div className="glass-card p-12 w-full max-w-md text-center relative z-10 flex flex-col items-center">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-8 animate-bounce">
-                    <CheckCircle2 className="text-green-600" size={40} />
+            <div className="bg-card backdrop-blur-xl border border-card-border shadow-2xl rounded-[32px] p-12 w-full max-w-md text-center relative z-10 flex flex-col items-center">
+                <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-8 animate-bounce">
+                    <CheckCircle2 className="text-green-600 dark:text-green-400" size={40} />
                 </div>
 
-                <h1 className="text-3xl font-bold text-[#1d1d1f] mb-4">입장 완료!</h1>
-                <p className="text-[#86868b] text-lg mb-12">
+                <h1 className="text-3xl font-bold text-foreground mb-4">입장 완료!</h1>
+                <p className="text-gray-500 dark:text-gray-400 text-lg mb-12">
                     선생님이 게임을 시작할 때까지 기다려주세요...
                 </p>
 
-                <div className="flex items-center gap-3 px-6 py-3 bg-[#f5f5f7] rounded-full">
+                <div className="flex items-center gap-3 px-6 py-3 bg-gray-100 dark:bg-white/5 rounded-full">
                     <Loader2 className="animate-spin text-gray-400" size={18} />
-                    <span className="text-sm font-medium text-gray-500 font-mono">
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400 font-mono">
                         세션 ID: {sessionId?.slice(0, 6)}...
                     </span>
                 </div>
