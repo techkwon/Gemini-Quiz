@@ -200,6 +200,8 @@ interface MarioGameProps {
     onScoreUpdate: (score: number) => void;
 }
 
+
+
 export default function MarioGame({ questions, onScoreUpdate }: MarioGameProps) {
     // --- Game Constants ---
     const GRAVITY = 0.4;
@@ -220,6 +222,7 @@ export default function MarioGame({ questions, onScoreUpdate }: MarioGameProps) 
     const [quizIdx, setQuizIdx] = useState(0);
     const [feedback, setFeedback] = useState<any>(null);
     const [showPipe, setShowPipe] = useState(false);
+
 
     // --- Refs ---
     const marioRef = useRef({
@@ -520,6 +523,8 @@ export default function MarioGame({ questions, onScoreUpdate }: MarioGameProps) 
         initLevel(nextIdx);
     };
 
+
+
     // --- Game Loop ---
     const gameLoop = () => {
         // Update Timer
@@ -539,6 +544,7 @@ export default function MarioGame({ questions, onScoreUpdate }: MarioGameProps) 
         }
 
         frameCountRef.current++;
+
         requestRef.current = requestAnimationFrame(gameLoop);
     };
 
@@ -732,6 +738,8 @@ export default function MarioGame({ questions, onScoreUpdate }: MarioGameProps) 
         }
     };
 
+
+
     const [tick, setTick] = useState(0);
     useEffect(() => {
         if (screen === 'GAME') {
@@ -843,8 +851,14 @@ export default function MarioGame({ questions, onScoreUpdate }: MarioGameProps) 
                             </div>
                         )}
 
+
+
+                        // ... inside MarioGame component ...
+
+                        // ...
                         {/* GAME FIELD RENDER */}
                         <div className="absolute w-full h-full">
+                            {/* Dynamic Entities */}
                             {entitiesRef.current.map(ent => {
                                 if (ent.type === 'BLOCK') {
                                     return (
@@ -898,6 +912,8 @@ export default function MarioGame({ questions, onScoreUpdate }: MarioGameProps) 
                                 }
                                 return null;
                             })}
+
+                            {/* Particles & Mario ... */}
 
                             {particlesRef.current.map((p, i) => (
                                 <div key={i} style={{
