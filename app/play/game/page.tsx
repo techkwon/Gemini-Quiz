@@ -7,6 +7,7 @@ import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import MarioGame from '@/components/games/MarioGame';
 import BattleGame from '@/components/games/BattleGame';
 import OnePunchGame from '@/components/games/OnePunchGame';
+import TeeniepingGame from '@/components/games/TeeniepingGame';
 import { Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -17,7 +18,7 @@ function GameContent() {
     const playerId = searchParams.get('playerId');
 
     const [quizSet, setQuizSet] = useState<any>(null);
-    const [gameType, setGameType] = useState<'MARIO' | 'BATTLE' | 'ONE_PUNCH'>('MARIO');
+    const [gameType, setGameType] = useState<'MARIO' | 'BATTLE' | 'ONE_PUNCH' | 'TEENIEPING'>('MARIO');
     const [loading, setLoading] = useState(true);
     const [gameStatus, setGameStatus] = useState('WAITING');
     const gameStatusRef = useRef(gameStatus);
@@ -135,6 +136,17 @@ function GameContent() {
         return (
             <div className="w-full h-screen overflow-hidden bg-black">
                 <OnePunchGame
+                    questions={quizSet.questions}
+                    onScoreUpdate={handleScoreUpdate}
+                />
+            </div>
+        );
+    }
+
+    if (gameType === 'TEENIEPING') {
+        return (
+            <div className="w-full h-screen overflow-hidden bg-black">
+                <TeeniepingGame
                     questions={quizSet.questions}
                     onScoreUpdate={handleScoreUpdate}
                 />

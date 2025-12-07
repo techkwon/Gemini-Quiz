@@ -54,7 +54,7 @@ export default function Dashboard() {
         setShowGameSelectModal(true);
     };
 
-    const confirmHostGame = async (gameType: 'MARIO' | 'BATTLE' | 'ONE_PUNCH') => {
+    const confirmHostGame = async (gameType: 'MARIO' | 'BATTLE' | 'ONE_PUNCH' | 'TEENIEPING') => {
         if (!selectedQuizId) return;
 
         try {
@@ -262,7 +262,7 @@ export default function Dashboard() {
                             <h2 className="text-3xl font-bold mb-2 text-center text-[#1d1d1f]">게임 모드 선택</h2>
                             <p className="text-center text-[#86868b] mb-10">학생들이 퀴즈를 풀 방식을 선택해주세요.</p>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                                 {/* Mario Mode */}
                                 <button
                                     onClick={() => confirmHostGame('MARIO')}
@@ -289,8 +289,18 @@ export default function Dashboard() {
                                     className="group relative overflow-hidden rounded-3xl bg-[#f5f5f7] p-6 hover:bg-[#fff] hover:shadow-xl transition-all duration-300 text-left border border-transparent hover:border-yellow-200"
                                 >
                                     <div className="w-16 h-16 rounded-2xl bg-yellow-100 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">👊</div>
-                                    <h3 className="text-xl font-bold text-[#1d1d1f] mb-2">히어로 시험</h3>
+                                    <h3 className="text-xl font-bold text--[#1d1d1f] mb-2">히어로 시험</h3>
                                     <p className="text-sm text-[#86868b] leading-relaxed">C급에서 S급 히어로까지 승급하세요. 당신의 지식을 증명하세요.</p>
+                                </button>
+
+                                {/* Teenieping Mode */}
+                                <button
+                                    onClick={() => confirmHostGame('TEENIEPING')}
+                                    className="group relative overflow-hidden rounded-3xl bg-[#f5f5f7] p-6 hover:bg-[#fff] hover:shadow-xl transition-all duration-300 text-left border border-transparent hover:border-pink-200"
+                                >
+                                    <div className="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">🏰</div>
+                                    <h3 className="text-xl font-bold text--[#1d1d1f] mb-2">티니핑 월드</h3>
+                                    <p className="text-sm text-[#86868b] leading-relaxed">티니핑과 함께하는 3D 퀴즈 모험! 웃음 구름을 찾아 떠나세요.</p>
                                 </button>
                             </div>
 
