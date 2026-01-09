@@ -800,7 +800,7 @@ export default function TeeniepingGame({ questions, onScoreUpdate }: TeeniepingG
 
         if (nLane > vars.score) {
             vars.score = nLane;
-            setScore(nLane);
+            // Note: 점수는 퀴즈 정답으로만 획득하므로 여기서 setScore 호출 제거
             if (sceneRef.current) {
                 createLane(sceneRef.current, lanesRef.current.length);
             }
@@ -900,12 +900,22 @@ export default function TeeniepingGame({ questions, onScoreUpdate }: TeeniepingG
         gameVars.current.isGameActive = false;
         setWarningMsg(false);
         setGameState('gameover');
+        // 최종 점수를 서버에 전송 (현재 score 상태 사용)
+        setScore(currentScore => {
+            onScoreUpdate(currentScore);
+            return currentScore;
+        });
     };
 
     const handleGameClear = () => {
         gameVars.current.isGameActive = false;
         setGameState('gameclear');
         synthRef.current.stop();
+        // 최종 점수를 서버에 전송 (현재 score 상태 사용)
+        setScore(currentScore => {
+            onScoreUpdate(currentScore);
+            return currentScore;
+        });
     };
 
     // Objects creators like createTree, createCar, createLog, createBalloon remain same.

@@ -1,0 +1,24 @@
+{
+    "name": "Gemini Quiz Mate",
+    "short_name": "Quiz Mate",
+    "description": "AI 기반 실시간 인터랙티브 퀴즈 게임 플랫폼",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3B82F6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "education",
+        "games"
+    ],
+    "lang": "ko",
+    "dir": "ltr"
+}
