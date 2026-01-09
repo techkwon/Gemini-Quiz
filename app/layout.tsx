@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://gemini-quiz.vercel.app"),
   title: {
     default: "Gemini Quiz Mate - AI 기반 인터랙티브 퀴즈 플랫폼",
     template: "%s | Gemini Quiz Mate",
